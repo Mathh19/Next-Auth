@@ -1,4 +1,5 @@
-## This is example to create a initial app with Next using 'npx create-next-app [name-project] --example [URL your project example]'
+## About
+This is a project where I am using NextAuth to understand how it works, on the back end strapi is being used.
 ## Getting Started
 
 First, run the development server:
