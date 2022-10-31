@@ -5,7 +5,7 @@ export default function Index() {
   const { data: session } = useSession();
   return (
     <h1>
-      <span>Hello World {session && JSON.stringify(session)}</span>
+      <pre>Hello World {session && JSON.stringify(session, null, 2)}</pre>
     </h1>
   );
 }
