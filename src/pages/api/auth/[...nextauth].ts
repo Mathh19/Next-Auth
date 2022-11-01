@@ -13,10 +13,12 @@ export default NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email or username', placeholder: 'Email or username' },
-        password: { label: 'Password', type: 'password' },
+        email: {},
+        password: {},
       },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
         try {
           const { login } = await gqlClient.request(
             GQL_MUTATION_AUTHENTICATE_USER,
