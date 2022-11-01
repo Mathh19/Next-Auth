@@ -19,6 +19,7 @@
     "postinstall": "npm run prepare"
   },
   "dependencies": {
+    "@styled-icons/evaicons-outline": "^10.46.0",
     "@styled-icons/material-outlined": "^10.34.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",

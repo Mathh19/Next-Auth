@@ -2,7 +2,8 @@ import { TextInput } from 'components/TextInput';
 import * as Styled from './styles';
 import { useState } from 'react';
 import { Email } from '@styled-icons/material-outlined/Email';
-import { Password } from '@styled-icons/material-outlined/Password';
+import { EyeOutline } from '@styled-icons/evaicons-outline/EyeOutline';
+import { EyeOffOutline } from '@styled-icons/evaicons-outline/EyeOffOutline';
 import { Button } from 'components/Button';
 
 export type FormLoginProps = {
@@ -14,6 +15,7 @@ export const FormLogin = ({ errorMessage, onLogin }: FormLoginProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [displayPassword, setDisplayPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     setLoading(true);
@@ -26,6 +28,10 @@ export const FormLogin = ({ errorMessage, onLogin }: FormLoginProps) => {
     setLoading(false);
   };
 
+  const handleClick = () => {
+    setDisplayPassword(!displayPassword);
+  };
+
   return (
     <Styled.Wrapper onSubmit={handleSubmit}>
       <TextInput
@@ -35,14 +41,22 @@ export const FormLogin = ({ errorMessage, onLogin }: FormLoginProps) => {
         onInputChange={(value) => setEmail(value)}
         value={email}
         icon={<Email />}
+        required={true}
       />
       <TextInput
-        type="password"
+        type={displayPassword ? 'text' : 'password'}
         name="user-password"
         label="Sua senha"
         onInputChange={(value) => setPassword(value)}
         value={password}
-        icon={<Password />}
+        required={true}
+        icon={
+          displayPassword ? (
+            <EyeOutline onClick={handleClick} />
+          ) : (
+            <EyeOffOutline onClick={handleClick} />
+          )
+        }
       />
 
       {!!errorMessage && (
