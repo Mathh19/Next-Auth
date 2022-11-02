@@ -52,9 +52,9 @@ export const FormLogin = ({ errorMessage, onLogin }: FormLoginProps) => {
         required={true}
         icon={
           displayPassword ? (
-            <EyeOutline onClick={handleClick} />
+            <EyeOutline onClick={handleClick} className="icon-visible" />
           ) : (
-            <EyeOffOutline onClick={handleClick} />
+            <EyeOffOutline onClick={handleClick} className="icon-visible" />
           )
         }
       />

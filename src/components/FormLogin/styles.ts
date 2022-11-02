@@ -1,6 +1,10 @@
 import styled, { css } from 'styled-components';
 
-export const Wrapper = styled.form``;
+export const Wrapper = styled.form`
+  .icon-visible {
+    cursor: pointer;
+  }
+`;
 
 export const ButtonWrapper = styled.div``;
 
