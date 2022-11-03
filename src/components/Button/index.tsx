@@ -6,6 +6,7 @@ export type ButtonProps = {
   disabled?: boolean;
   onClick?: () => void;
   icon?: React.ReactNode;
+  warning?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
@@ -13,6 +14,7 @@ export const Button = ({
   disabled = false,
   onClick,
   icon,
+  warning = false,
 }: ButtonProps) => {
   const handleClick = () => {
     if (onClick) {
@@ -21,7 +23,7 @@ export const Button = ({
   };
 
   return (
-    <Styled.Button disabled={disabled} onClick={handleClick}>
+    <Styled.Button disabled={disabled} onClick={handleClick} warning={warning}>
       {children}
       {!!icon && icon}
     </Styled.Button>

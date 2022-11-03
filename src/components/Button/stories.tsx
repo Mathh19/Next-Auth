@@ -32,3 +32,11 @@ export const Template: Story<ButtonProps> = (args) => {
     </div>
   );
 };
+
+export const WarningButton: Story<ButtonProps> = (args) => {
+  return (
+    <div>
+      <Button {...args} warning={true} />
+    </div>
+  );
+};
