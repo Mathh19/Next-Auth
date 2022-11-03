@@ -6,6 +6,7 @@ import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { GetServerSideProps } from 'next';
 import { Wrapper } from 'components/Wrapper';
 import Link from 'next/link';
+import { loadPosts } from 'utils/load-posts';
 
 export type StrapiPost = {
   id?: string;
@@ -63,14 +64,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/posts`;
-    const headers = new Headers();
+    const token = session.accessToken;
 
-    headers.set(`Authorization`, `Bearer ${session.accessToken}`);
-
-    const posts = await fetch(url, {
-      method: 'GET',
-      headers: headers,
-    }).then((res) => res.json());
+    const posts = await loadPosts(url, token);
 
     return {
       props: {
