@@ -43,7 +43,7 @@ export const Menu = () => {
             },
           }}
         >
-          <a>Entrar</a>
+          <a>Login</a>
         </Link>
       )}
     </Styled.Wrapper>
