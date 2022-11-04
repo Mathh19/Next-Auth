@@ -1,25 +1,33 @@
 import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import { unstable_getServerSession } from 'next-auth/next';
 import { frontEndRedirect } from 'utils/front-end-redirect';
 import { serverSideRedirect } from 'utils/server-side-redirect';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { GetServerSideProps } from 'next';
+import { loadPosts } from 'utils/load-posts';
+import { PostsContainer } from 'components/PostsContainer';
 import { Wrapper } from 'components/Wrapper';
 import Link from 'next/link';
-import { loadPosts } from 'utils/load-posts';
+import { Button } from 'components/Button';
 
 export type StrapiPost = {
   id?: string;
   title: string;
   content: string;
 };
-
 export type PostsPageProps = {
   posts?: StrapiPost[];
 };
 
 export default function Posts({ posts }: PostsPageProps) {
   const { data: session, status } = useSession();
+  const [statePosts, setStatePosts] = useState(posts);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    setStatePosts(posts);
+  }, [posts]);
 
   if (!session && status !== 'loading') {
     return frontEndRedirect();
@@ -35,17 +43,47 @@ export default function Posts({ posts }: PostsPageProps) {
     return <p>Você não está autenticado</p>;
   }
 
+  async function handleDelete(id: string) {
+    setDeleting(true);
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}`;
+      const token = session.accessToken;
+      const headers = new Headers();
+      headers.set(`Authorization`, `Bearer ${token}`);
+
+      await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+      }).then((res) => res.json());
+
+      setStatePosts((state) => state.filter((post) => post.id !== id));
+    } catch (err) {
+      console.log('O ERRO');
+      alert('Não foi possível excluir esse post');
+    }
+
+    setDeleting(false);
+  }
+
   return (
     <Wrapper>
       <h1>Aqui estão seus posts</h1>
-      {posts.map((post) => (
-        <p key={post.id}>
+      {statePosts.map((post) => (
+        <PostsContainer key={post.id}>
           <Link href={`/${post.id}`}>
             <a>
               <p>{post.title}</p>
             </a>
-          </Link>
-        </p>
+          </Link>{' '}
+          |{' '}
+          <Button
+            warning={true}
+            onClick={() => handleDelete(post.id)}
+            disabled={deleting}
+          >
+            excluir
+          </Button>
+        </PostsContainer>
       ))}
     </Wrapper>
   );
