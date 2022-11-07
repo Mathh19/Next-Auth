@@ -1,11 +1,8 @@
-import { FormPost, StrapiPost } from 'components/FormPost';
-import { Wrapper } from 'components/Wrapper';
-import { gqlClient } from 'graphql/client';
-import { GQL_MUTATION_UPDATE_POST } from 'graphql/mutations/post';
+import { StrapiPost } from 'components/FormPost';
+import { PrivateComponent } from 'components/PrivateComponent';
+import { UpdatePostTemplate } from 'components/Templates/UpdatePost';
 import { GetServerSideProps } from 'next';
 import { unstable_getServerSession } from 'next-auth';
-import { useSession } from 'next-auth/react';
-import { frontEndRedirect } from 'utils/front-end-redirect';
 import { serverSideRedirect } from 'utils/server-side-redirect';
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -14,38 +11,10 @@ export type PostPageProps = {
 };
 
 export default function PostPage({ post }: PostPageProps) {
-  const { data: session, status } = useSession();
-
-  if (!session && status !== 'loading') {
-    return frontEndRedirect();
-  }
-
-  if (status === 'loading') {
-    return <p>Loading...</p>;
-  }
-
-  if (typeof window === 'undefined') return null;
-
-  if (status === 'unauthenticated') {
-    return <p>Você não está autenticado</p>;
-  }
-
-  const handleSave = async ({ id, title, content }) => {
-    try {
-      await gqlClient.request(
-        GQL_MUTATION_UPDATE_POST,
-        { id, title, content },
-        { Authorization: `Bearer ${session.accessToken}` },
-      );
-    } catch (err) {
-      alert('Erro ao salvar o post!');
-    }
-  };
-
   return (
-    <Wrapper>
-      <FormPost onSave={handleSave} post={post} />
-    </Wrapper>
+    <PrivateComponent>
+      <UpdatePostTemplate post={post} />
+    </PrivateComponent>
   );
 }
 
