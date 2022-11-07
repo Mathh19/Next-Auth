@@ -10,12 +10,8 @@ import { PostsContainer } from 'components/PostsContainer';
 import { Wrapper } from 'components/Wrapper';
 import Link from 'next/link';
 import { Button } from 'components/Button';
+import { StrapiPost } from 'components/FormPost';
 
-export type StrapiPost = {
-  id?: string;
-  title: string;
-  content: string;
-};
 export type PostsPageProps = {
   posts?: StrapiPost[];
 };
@@ -58,7 +54,6 @@ export default function Posts({ posts }: PostsPageProps) {
 
       setStatePosts((state) => state.filter((post) => post.id !== id));
     } catch (err) {
-      console.log('O ERRO');
       alert('Não foi possível excluir esse post');
     }
 
