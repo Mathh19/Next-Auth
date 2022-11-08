@@ -6,11 +6,11 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-export type PostsPageProps = {
+export type GetPostsTemplateProps = {
   posts?: StrapiPost[];
 };
 
-export function GetPosts({ posts }: PostsPageProps) {
+export function GetPostsTemplate({ posts }: GetPostsTemplateProps) {
   const { data: session } = useSession();
   const [statePosts, setStatePosts] = useState(posts);
   const [deleting, setDeleting] = useState(false);

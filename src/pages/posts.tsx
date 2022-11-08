@@ -5,7 +5,7 @@ import { GetServerSideProps } from 'next';
 import { loadPosts } from 'utils/load-posts';
 import { StrapiPost } from 'components/FormPost';
 import { PrivateComponent } from 'components/PrivateComponent';
-import { GetPosts } from 'components/Templates/GetPosts';
+import { GetPostsTemplate } from 'components/Templates/GetPosts';
 
 export type PostsPageProps = {
   posts?: StrapiPost[];
@@ -14,7 +14,7 @@ export type PostsPageProps = {
 export default function Posts({ posts }: PostsPageProps) {
   return (
     <PrivateComponent>
-      <GetPosts posts={posts} />
+      <GetPostsTemplate posts={posts} />
     </PrivateComponent>
   );
 }
