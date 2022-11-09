@@ -49,8 +49,7 @@ export function GetPostsTemplate({ posts }: GetPostsTemplateProps) {
             <a>
               <p>{post.title}</p>
             </a>
-          </Link>{' '}
-          |{' '}
+          </Link>
           <Button
             warning={true}
             onClick={() => handleDelete(post.id)}

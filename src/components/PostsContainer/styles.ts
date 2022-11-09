@@ -5,7 +5,7 @@ export const ContainerPosts = styled.div`
   ${({ theme }) => css`
     display: flex;
     align-items: center;
-    flex-flow: row wrap;
+    justify-content: space-between;
 
     p {
       margin-right: ${theme.spacings.small};
