@@ -2,9 +2,7 @@ import { StrapiPost } from 'components/FormPost';
 import { PrivateComponent } from 'components/PrivateComponent';
 import { UpdatePostTemplate } from 'components/Templates/UpdatePost';
 import { GetServerSideProps } from 'next';
-import { unstable_getServerSession } from 'next-auth';
-import { serverSideRedirect } from 'utils/server-side-redirect';
-import { authOptions } from './api/auth/[...nextauth]';
+import { PrivateServerSideProps } from 'utils/private-server-side-props';
 
 export type PostPageProps = {
   post: StrapiPost;
@@ -19,18 +17,8 @@ export default function PostPage({ post }: PostPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions,
-  );
-  const { id } = context.params;
-
-  if (!session) {
-    return serverSideRedirect(context);
-  }
-
-  try {
+  return await PrivateServerSideProps(context, async (session) => {
+    const { id } = context.params;
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}`;
     const token = session.accessToken;
     const headers = new Headers();
@@ -47,8 +35,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         post,
       },
     };
-  } catch (error) {
-    console.log(error);
-    return serverSideRedirect(context);
-  }
+  });
 };

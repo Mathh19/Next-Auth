@@ -15,7 +15,7 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-size: 1.6rem;
     font-family: ${({ theme }) => theme.font.family.default};
-    background-color: ${({ theme }) => theme.colors.deepBlack};
+    background-color: ${({ theme }) => theme.colors.gray12};
     color: ${({ theme }) => theme.colors.deepWhite};
   }
 

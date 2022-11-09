@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
     overflow-y: auto;
     width: 90%;
     margin: 8rem auto;
-    background: ${theme.colors.gray12};
+    background: ${theme.colors.deepBlack};
     padding: ${theme.spacings.xlarge};
   `}
 `;
