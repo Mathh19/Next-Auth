@@ -8,6 +8,7 @@ import { useState } from 'react';
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
+  const redirect = router.query?.redirect || '/';
 
   const handleLogin = async (email: string, password: string) => {
     if (!email) {
@@ -24,6 +25,7 @@ export default function LoginPage() {
       email,
       password,
       redirect: false,
+      callbackUrl: redirect as string,
     });
 
     if (!response.ok) {
@@ -31,12 +33,11 @@ export default function LoginPage() {
       return;
     }
 
-    const redirect = router.query?.redirect || '/';
-    router.push(redirect as string);
+    window.location.href = response.url;
   };
 
   const handleLoginGoogle = async () => {
-    await signIn('google', { callbackUrl: '/' });
+    await signIn('google', { callbackUrl: redirect as string });
   };
 
   return (
