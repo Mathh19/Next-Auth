@@ -19,7 +19,7 @@ export function PrivateComponent({ children }: PrivateComponentProps) {
   if (typeof window === 'undefined') return null;
 
   if (status === 'unauthenticated') {
-    return <p>Você não está autenticado</p>;
+    return null;
   }
   return children;
 }

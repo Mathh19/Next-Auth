@@ -2,11 +2,13 @@ import 'next-auth';
 
 declare module 'next-auth' {
   interface User {
-    id: string;
     jwt: string;
-    name: string;
-    email: string;
-    expiration?: number;
+    user: {
+      id: string;
+      username: string;
+      email: string;
+      expiration?: number;
+    };
   }
 
   interface Session {
