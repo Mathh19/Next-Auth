@@ -3,6 +3,7 @@ import { GQL_MUTATION_AUTHENTICATE_USER } from 'graphql/mutations/auth';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import GitHubProvider from 'next-auth/providers/github';
 
 type NextAuthSession = Record<string, string>;
 
@@ -43,6 +44,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
     async jwt({ token, user, account }) {
@@ -52,6 +57,13 @@ export const authOptions: NextAuthOptions = {
         if (account && account.provider === 'google') {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/callback?access_token=${account?.access_token}`,
+          );
+          const data = await response.json();
+          token = setToken(data);
+          return Promise.resolve(token);
+        } else if (account && account.provider === 'github') {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/github/callback?access_token=${account?.access_token}`,
           );
           const data = await response.json();
           token = setToken(data);
